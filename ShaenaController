@@ -17,6 +17,10 @@ public class ShaenaController : MonoBehaviour
     private Animator animator;
     private Vector2 lookDirection = new Vector2(1, 0);
 
+    public int maxHealth = 4;
+    public int health { get { return currentHealth; } }
+    public int currentHealth;
+
     void Start()
     {
         currentSpeed = walkingSpeed;
@@ -25,6 +29,8 @@ public class ShaenaController : MonoBehaviour
         if (scene.name == "MainScene")
             transform.position = GameManager.Instance.SpawnLocation;
         animator = GetComponent<Animator>();
+        //currentHealth = maxHealth;
+        currentHealth = 3;
     }
 
     void Update()
@@ -59,5 +65,16 @@ public class ShaenaController : MonoBehaviour
         if (isInRoom)
             position.y = position.y + currentSpeed * vertical * Time.deltaTime;
         rigidbody2d.MovePosition(position);
+    }
+
+    public void ChangeHealth(int amount)
+    {
+        currentHealth = Mathf.Clamp(currentHealth + amount, 0, maxHealth);
+        Debug.Log(currentHealth + "/" + maxHealth);
+    }
+
+    public int GetCurrentHealth()
+    {
+        return currentHealth;
     }
 }
